@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Cadastro Financeiro</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		form {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			background-color: #fff;
+		}
+
+		form label,
+		form input {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		form input {
+			width: 100%;
+			padding: 5px;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+		}
+
+		.button-group {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.button-group button {
+			margin: 5px;
+			padding: 8px 20px;
+			font-size: 16px;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+			background-color: #555;
+			color: #fff;
+		}
+
+		.button-group button:hover {
+			background-color: #333;
+		}
+
+		h2 {
+			text-align: center;
+		}
+
+		table {
+			margin: 0 auto;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid #ddd;
+		}
+
+		th,
+		td {
+			padding: 8px;
+			text-align: left;
+		}
+
+		th {
+			background-color: #555;
+			color: #fff;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Cadastro Financeiro</h1>
+	<form id="form">
+		<label for="codPendencia">COD.PENDENCIA:</label>
+		<input type="text" id="codPendencia" name="codPendencia">
+
+		<label for="codigoProcesso">CODIGO PROCESSO:</label>
+		<input type="text" id="codigoProcesso" name="codigoProcesso">
+
+		<label for="numProcesso">NUM.PROCESSO:</label>
+		<input type="text" id="numProcesso" name="numProcesso">
+
+		<label for="nome">NOME:</label>
+		<input type="text" id="nome" name="nome">
+
+		<label for="titular">TITULAR:</label>
+		<input type="text" id="titular" name="titular">
+
+		<label for="cpfCnpj">CPF/CNPJ:</label>
+		<input type="text" id="cpfCnpj" name="cpfCnpj">
+
+		<label for="banco">BANCO:</label>
+		<input type="text" id="banco" name="banco">
+
+		<label for="agencia">AGENCIA:</label>
+		<input type="text" id="agencia" name="agencia">
+
+		<label for="conta">CONTA:</label>
+		<input type="text" id="conta" name="conta">
+
+		<label for="valor">VALOR:</label>
+		<input type="text" id="valor" name="valor">
+
+		<label for="data">DATA:</label>
+		<input type="text" id="data" name="data" placeholder="__/__/____">
+
+		<label for="hora">HORA: </label>
+		<input type="text" id="hora" name="hora" placeholder="__:_">
+
+		<label for="observacao">OBSERVAÇÃO:</label>
+		<input type="text" id="observacao" name="observacao">
+
+		<div class="button-group">
+			<button type="button" onclick="novo()">Novo</button>
+			<button type="button" onclick="alterar()">Alterar</button>
+			<button type="button" onclick="salvar()">Salvar</button>
+			<button type="button" onclick="excluir()">Excluir</button>
+			<button type="button" onclick="sair()">Sair</button>
+		</div>
+	</form>
+
+	<h2>Tabela de Cadastros</h2>
+	<table id='tabela'>
+		<tr>
+			<th>CodigoPend</th>
+			<th>NumProcesso</th>
+			<th>Nome</th>
+			<th>Titular</th>
+			<th>Cpf</th>
+			<th>Banco</th>
+			<th>Agencia</th>
+			<th>Conta</th>
+			<th>Valor</th>
+			<th>Data</th>
+			<th>Hora</th>
+			<th>Observação</th>
+		</tr>
+	</table>
+
+	<script>
+		let pendencias = [];
+		let pendenciaSelecionada = null;
+
+		function novo() {
+			document.getElementById("form").reset();
+			pendenciaSelecionada = null;
+		}
+
+		function alterar() {
+			let codPendencia = document.getElementById("codPendencia").value;
+			let pendencia = pendencias.find(p => p.codPendencia === codPendencia);
+			if (pendencia) {
+				document.getElementById("codigoProcesso").value = pendencia.codigoProcesso;
+				document.getElementById("numProcesso").value = pendencia.numProcesso;
+				document.getElementById("nome").value = pendencia.nome;
+				document.getElementById("titular").value = pendencia.titular;
+				document.getElementById("cpfCnpj").value = pendencia.cpfCnpj;
+				document.getElementById("banco").value = pendencia.banco;
+				document.getElementById("agencia").value = pendencia.agencia;
+				document.getElementById("conta").value = pendencia.conta;
+				document.getElementById("valor").value = pendencia.valor;
+				document.getElementById("data").value = pendencia.data;
+				document.getElementById("hora").value = pendencia.hora;
+				document.getElementById("observacao").value = pendencia.observacao;
+
+				pendenciaSelecionada = pendencia;
+			} else {
+				alert("Pendência não encontrada!");
+			}
+		}
+
+		function salvar() {
+			let codPendencia = document.getElementById("codPendencia").value;
+			let codigoProcesso = document.getElementById("codigoProcesso").value;
+			let numProcesso = document.getElementById("numProcesso").value;
+			let nome = document.getElementById("nome").value;
+			let titular = document.getElementById("titular").value;
+			let cpfCnpj = document.getElementById("cpfCnpj").value;
+			let banco = document.getElementById("banco").value;
+			let agencia = document.getElementById("agencia").value;
+			let conta = document.getElementById("conta").value;
+			let valor = document.getElementById("valor").value;
+			let data = document.getElementById("data").value;
+			let hora = document.getElementById("hora").value;
+			let observacao = document.getElementById("observacao").value;
+
+			if (pendenciaSelecionada) {
+				pendenciaSelecionada.codigoProcesso = codigoProcesso;
+				pendenciaSelecionada.numProcesso = numProcesso;
+				pendenciaSelecionada.nome = nome;
+				pendenciaSelecionada.titular = titular;
+				pendenciaSelecionada.cpfCnpj = cpfCnpj;
+				pendenciaSelecionada.banco = banco;
+				pendenciaSelecionada.agencia = agencia;
+				pendenciaSelecionada.conta = conta;
+				pendenciaSelecionada.valor = valor;
+				pendenciaSelecionada.data = data;
+				pendenciaSelecionada.hora = hora;
+				pendenciaSelecionada.observacao = observacao;
+			} else {
+				let pendencia = {
+					codPendencia, codigoProcesso, numProcesso, nome, titular, cpfCnpj, banco, agencia, conta,
+					valor, data, hora, observacao
+				};
+				pendencias.push(pendencia);
+			}
+
+			atualizarTabela();
+			novo();
+		}
+
+		function excluir() {
+			let codPendencia = document.getElementById("codPendencia").value;
+			let index = pendencias.findIndex(p => p.codPendencia === codPendencia);
+			if (index !== -1) {
+				pendencias.splice(index, 1);
+				atualizarTabela();
+				novo();
+			} else {
+				alert("Pendência não encontrada!");
+			}
+		}
+
+		function sair() {
+			window.location.href = "paginaInicial.html";
+		}
+
+		function atualizarTabela() {
+			let tabela = document.getElementById("tabela");
+			tabela.innerHTML = `<tr>
+        <th>CodigoPend</th>
+        <th>NumProcesso</th> 
+        <th>Nome</th>
+        <th>Titular</th>
+        <th>Cpf</th> 
+        <th>Banco</th> 
+        <th>Agencia</th>
+        <th>Conta</th>
+        <th>Valor</th>
+        <th>Data</th>
+        <th>Hora</th> 
+        <th>Observação</th>
+    </tr>`;
+
+			for (let pendencia of pendencias) {
+				let row = tabela.insertRow(-1);
+				row.onclick = function () {
+					document.getElementById("codPendencia").value = pendencia.codPendencia;
+					alterar();
+				};
+				let cell1 = row.insertCell(0);
+				let cell2 = row.insertCell(1);
+				let cell3 = row.insertCell(2);
+				let cell4 = row.insertCell(3);
+				let cell5 = row.insertCell(4);
+				let cell6 = row.insertCell(5);
+				let cell7 = row.insertCell(6);
+				let cell8 = row.insertCell(7);
+				let cell9 = row.insertCell(8);
+				let cell10 = row.insertCell(9);
+				let cell11 = row.insertCell(10);
+				let cell12 = row.insertCell(11);
+				cell1.innerHTML = pendencia.codPendencia;
+				cell2.innerHTML = pendencia.numProcesso;
+				cell3.innerHTML = pendencia.nome;
+				cell4.innerHTML = pendencia.titular;
+				cell5.innerHTML = pendencia.cpfCnpj;
+				cell6.innerHTML = pendencia.banco;
+				cell7.innerHTML = pendencia.agencia;
+				cell8.innerHTML = pendencia.conta;
+				cell9.innerHTML = pendencia.valor;
+				cell10.innerHTML = pendencia.data;
+				cell11.innerHTML = pendencia.hora;
+				cell12.innerHTML = pendencia.observacao;
+			}
+		}
+
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Cadastro de Cliente</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		form {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			background-color: #fff;
+		}
+
+		form label,
+		form input {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		form input {
+			width: 100%;
+			padding: 5px;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+		}
+
+		.button-group {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.button-group button {
+			margin: 5px;
+			padding: 8px 20px;
+			font-size: 16px;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+			background-color: #555;
+			color: #fff;
+		}
+
+		.button-group button:hover {
+			background-color: #333;
+		}
+
+		h2 {
+			text-align: center;
+		}
+
+		table {
+			margin: 0 auto;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid #ddd;
+		}
+
+		th,
+		td {
+			padding: 8px;
+			text-align: left;
+		}
+
+		th {
+			background-color: #555;
+			color: #fff;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Cadastro de Cliente</h1>
+	<form id="form">
+		<label for="codigoCliente">CODIGO CLIENTE:</label>
+		<input type="text" id="codigoCliente" name="codigoCliente">
+
+		<label for="pastaLocal">PASTA LOCAL:</label>
+		<input type="text" id="pastaLocal" name="pastaLocal">
+
+		<label for="nome">NOME:</label>
+		<input type="text" id="nome" name="nome">
+
+		<label for="endereco">ENDEREÇO:</label>
+		<input type="text" id="endereco" name="endereco">
+
+		<label for="cidade">CIDADE:</label>
+		<input type="text" id="cidade" name="cidade">
+
+		<label for="uf">UF:</label>
+		<input type="text" id="uf" name="uf">
+
+		<label for="bairro">BAIRRO:</label>
+		<input type="text" id="bairro" name="bairro">
+
+		<label for="complemento">COMPLEMENTO:</label>
+		<input type="text" id="complemento" name="complemento">
+
+		<label for="cpfCnpj">CPF/CNPJ:</label>
+		<input type="text" id="cpfCnpj" name="cpfCnpj">
+
+		<label for="rgInscEstadual">RG/INSC.ESTADUAL:</label>
+		<input type="text" id="rgInscEstadual" name="rgInscEstadual">
+
+		<label for="emissorUf">EMISSOR/UF:</label>
+		<input type="text" id="emissorUf" name="emissorUf">
+
+		<label for="estadoCivil">ESTADO CIVIL:</label>
+		<input type="text" id="estadoCivil" name="estadoCivil">
+
+		<label for="dataNascimento">DATA DE NASCIMENTO:</label>
+		<input type="text" id="dataNascimento" name="dataNascimento" placeholder="__/__/____">
+
+		<label for="nacionalidade">NACIONALIDADE:</label>
+		<input type="text" id="nacionalidade" name="nacionalidade">
+
+		<label for="fone">FONE:</label>
+		<input type="text" id="fone" name="fone" placeholder="(__)____.____">
+
+		<label for="celular">CELULAR:</label>
+		<input type="text" id="celular" name="celular" placeholder="(__)_____.____">
+
+		<label for="email">EMAIL:</label>
+		<input type="email" id="email" name="email">
+
+		<div class="button-group">
+			<button type="button" onclick="novo()">Novo</button>
+			<button type="button" onclick="alterar()">Alterar</button>
+			<button type="button" onclick="salvar()">Salvar</button>
+			<button type="button" onclick="excluir()">Excluir</button>
+			<button type="button" onclick="sair()">Sair</button>
+		</div>
+	</form>
+
+	<h2>Tabela de Cadastros</h2>
+	<table id='tabela'>
+		<tr>
+			<th>CodigoCliente</th>
+			<th>Nome</th>
+			<th>Endereço</th>
+			<th>Bairro</th>
+			<th>Complemento</th>
+			<th>Cidade</th>
+			<th>UF</th>
+			<th>CPF/CNPJ</th>
+			<th>RG/INSC.ESTADUAL</th>
+			<th>Data de Nascimento</th>
+			<th>Nacionalidade</th>
+			<th>Fone</th>
+			<th>Celular</th>
+			<th>Email</th>
+		</tr>
+	</table>
+
+	<script>
+		let clientes = [];
+		let clienteSelecionado = null;
+
+		function novo() {
+			document.getElementById("form").reset();
+			clienteSelecionado = null;
+		}
+
+		function alterar() {
+			let codigoCliente = document.getElementById("codigoCliente").value;
+			let cliente = clientes.find(c => c.codigoCliente === codigoCliente);
+			if (cliente) {
+				document.getElementById("pastaLocal").value = cliente.pastaLocal;
+				document.getElementById("nome").value = cliente.nome;
+				document.getElementById("endereco").value = cliente.endereco;
+				document.getElementById("cidade").value = cliente.cidade;
+				document.getElementById("uf").value = cliente.uf;
+				document.getElementById("bairro").value = cliente.bairro;
+				document.getElementById("complemento").value = cliente.complemento;
+				document.getElementById("cpfCnpj").value = cliente.cpfCnpj;
+				document.getElementById("rgInscEstadual").value = cliente.rgInscEstadual;
+				document.getElementById("emissorUf").value = cliente.emissorUf;
+				document.getElementById("estadoCivil").value = cliente.estadoCivil;
+				document.getElementById("dataNascimento").value = cliente.dataNascimento;
+				document.getElementById("nacionalidade").value = cliente.nacionalidade;
+				document.getElementById("fone").value = cliente.fone;
+				document.getElementById("celular").value = cliente.celular;
+				document.getElementById("email").value = cliente.email;
+
+				clienteSelecionado = cliente;
+			} else {
+				alert("Cliente não encontrado!");
+			}
+		}
+
+		function salvar() {
+			let codigoCliente = document.getElementById("codigoCliente").value;
+			let pastaLocal = document.getElementById("pastaLocal").value;
+			let nome = document.getElementById("nome").value;
+			let endereco = document.getElementById("endereco").value;
+			let cidade = document.getElementById("cidade").value;
+			let uf = document.getElementById("uf").value;
+			let bairro = document.getElementById("bairro").value;
+			let complemento = document.getElementById("complemento").value;
+			let cpfCnpj = document.getElementById("cpfCnpj").value;
+			let rgInscEstadual = document.getElementById("rgInscEstadual").value;
+			let emissorUf = document.getElementById("emissorUf").value;
+			let estadoCivil = document.getElementById("estadoCivil").value;
+			let dataNascimento = document.getElementById("dataNascimento").value;
+			let nacionalidade = document.getElementById("nacionalidade").value;
+			let fone = document.getElementById("fone").value;
+			let celular = document.getElementById("celular").value;
+			let email = document.getElementById("email").value;
+
+			if (clienteSelecionado) {
+				clienteSelecionado.pastaLocal = pastaLocal;
+				clienteSelecionado.nome = nome;
+				clienteSelecionado.endereco = endereco;
+				clienteSelecionado.cidade = cidade;
+				clienteSelecionado.uf = uf;
+				clienteSelecionado.bairro = bairro;
+				clienteSelecionado.complemento = complemento;
+				clienteSelecionado.cpfCnpj = cpfCnpj;
+				clienteSelecionado.rgInscEstadual = rgInscEstadual;
+				clienteSelecionado.emissorUf = emissorUf;
+				clienteSelecionado.estadoCivil = estadoCivil;
+				clienteSelecionado.dataNascimento = dataNascimento;
+				clienteSelecionado.nacionalidade = nacionalidade;
+				clienteSelecionado.fone = fone;
+				clienteSelecionado.celular = celular;
+				clienteSelecionado.email = email;
+			} else {
+				let cliente = {
+					codigoCliente, pastaLocal, nome, endereco, cidade, uf, bairro, complemento, cpfCnpj,
+					rgInscEstadual, emissorUf, estadoCivil, dataNascimento, nacionalidade, fone, celular, email
+				};
+				clientes.push(cliente);
+			}
+
+			atualizarTabela();
+			novo();
+		}
+
+		function excluir() {
+			let codigoCliente = document.getElementById("codigoCliente").value;
+			let index = clientes.findIndex(c => c.codigoCliente === codigoCliente);
+			if (index !== -1) {
+				clientes.splice(index, 1);
+				atualizarTabela();
+				novo();
+			} else {
+				alert("Cliente não encontrado!");
+			}
+		}
+
+		function sair() {
+			window.location.href = "paginaInicial.html";
+		}
+
+		function atualizarTabela() {
+			let tabela = document.getElementById("tabela");
+			tabela.innerHTML = `<tr>
+        <th>CodigoCliente</th>
+        <th>Nome</th> 
+        <th>Endereço</th>
+        <th>Bairro</th>
+        <th>Complemento</th>
+        <th>Cidade</th> 
+        <th>UF</th> 
+        <th>CPF/CNPJ</th> 
+        <th>RG/INSC.ESTADUAL</th>
+        <th>Data de Nascimento</th>
+        <th>Nacionalidade</th>
+        <th>Fone</th>
+        <th>Celular</th> 
+        <th>Email</th>
+    </tr>`;
+
+			for (let cliente of clientes) {
+				let row = tabela.insertRow(-1);
+				row.onclick = function () {
+					document.getElementById("codigoCliente").value = cliente.codigoCliente;
+					alterar();
+				};
+				let cell1 = row.insertCell(0);
+				let cell2 = row.insertCell(1);
+				let cell3 = row.insertCell(2);
+				let cell4 = row.insertCell(3);
+				let cell5 = row.insertCell(4);
+				let cell6 = row.insertCell(5);
+				let cell7 = row.insertCell(6);
+				let cell8 = row.insertCell(7);
+				let cell9 = row.insertCell(8);
+				let cell10 = row.insertCell(9);
+				let cell11 = row.insertCell(10);
+				let cell12 = row.insertCell(11);
+				let cell13 = row.insertCell(12);
+				let cell14 = row.insertCell(13);
+				cell1.innerHTML = cliente.codigoCliente;
+				cell2.innerHTML = cliente.nome;
+				cell3.innerHTML = cliente.endereco;
+				cell4.innerHTML = cliente.bairro;
+				cell5.innerHTML = cliente.complemento;
+				cell6.innerHTML = cliente.cidade;
+				cell7.innerHTML = cliente.uf;
+				cell8.innerHTML = cliente.cpfCnpj;
+				cell9.innerHTML = cliente.rgInscEstadual;
+				cell10.innerHTML = cliente.dataNascimento;
+				cell11.innerHTML = cliente.nacionalidade;
+				cell12.innerHTML = cliente.fone;
+				cell13.innerHTML = cliente.celular;
+				cell14.innerHTML = cliente.email;
+			}
+		}
+
+	</script>
+</body>
+
+</html>

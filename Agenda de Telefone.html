@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Agenda de Telefone</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		form {
+			max-width: 500px;
+			margin: 0 auto;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			background-color: #fff;
+		}
+
+		form label,
+		form input {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		form input {
+			width: 100%;
+			padding: 5px;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+		}
+
+		form textarea {
+			width: 100%;
+			height: 100px;
+			padding: 5px;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+		}
+
+		.button-group {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.button-group button {
+			margin: 5px;
+			padding: 8px 20px;
+			font-size: 16px;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+			background-color: #888;
+			color: #fff;
+		}
+
+		.button-group button:hover {
+			background-color: #555;
+		}
+
+		h2 {
+			text-align: center;
+		}
+
+		table {
+			margin: 0 auto;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid #ddd;
+		}
+
+		th,
+		td {
+			padding: 8px;
+			text-align: left;
+		}
+
+		th {
+			background-color: #888;
+			color: #fff;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Agenda de Telefone</h1>
+	<form id="form">
+		<label for="codigoTel">CÓDIGO TEL:</label>
+		<input type="text" id="codigoTel" name="codigoTel">
+
+		<label for="nome">NOME:</label>
+		<input type="text" id="nome" name="nome">
+
+		<label for="celular">CELULAR:</label>
+		<input type="text" id="celular" name="celular">
+
+		<label for="fone">FONE:</label>
+		<input type="text" id="fone" name="fone">
+
+		<label for="endereco">ENDEREÇO:</label>
+		<input type="text" id="endereco" name="endereco">
+
+		<div class="button-group">
+			<button type="button" onclick="novo()">Novo</button>
+			<button type="button" onclick="alterar()">Alterar</button>
+			<button type="button" onclick="salvar()">Salvar</button>
+			<button type="button" onclick="excluir()">Excluir</button>
+			<button type="button" onclick="sair()">Sair</button>
+		</div>
+	</form>
+
+	<h2>Tabela de Contatos</h2>
+	<table id='tabela'>
+		<tr>
+			<th>CodigoTel</th>
+			<th>Nome</th>
+			<th>Celular</th>
+			<th>Fone</th>
+			<th>Endereço</th>
+		</tr>
+	</table>
+
+	<script>
+		let contatos = [];
+		let contatoSelecionado = null;
+
+		function novo() {
+			document.getElementById("form").reset();
+			contatoSelecionado = null;
+		}
+
+		function alterar() {
+			let codigoTel = document.getElementById("codigoTel").value;
+			let contato = contatos.find(c => c.codigoTel === codigoTel);
+			if (contato) {
+				document.getElementById("nome").value = contato.nome;
+				document.getElementById("celular").value = contato.celular;
+				document.getElementById("fone").value = contato.fone;
+				document.getElementById("endereco").value = contato.endereco;
+				contatoSelecionado = contato;
+			} else {
+				alert("Contato não encontrado!");
+			}
+		}
+
+		function salvar() {
+			let codigoTel = document.getElementById("codigoTel").value;
+			let nome = document.getElementById("nome").value;
+			let celular = document.getElementById("celular").value;
+			let fone = document.getElementById("fone").value;
+			let endereco = document.getElementById("endereco").value;
+
+			if (contatoSelecionado) {
+				contatoSelecionado.nome = nome;
+				contatoSelecionado.celular = celular;
+				contatoSelecionado.fone = fone;
+				contatoSelecionado.endereco = endereco;
+			} else {
+				let contato = { codigoTel, nome, celular, fone, endereco };
+				contatos.push(contato);
+			}
+
+			atualizarTabela();
+			novo();
+		}
+
+		function excluir() {
+			let codigoTel = document.getElementById("codigoTel").value;
+			let index = contatos.findIndex(c => c.codigoTel === codigoTel);
+			if (index !== -1) {
+				contatos.splice(index, 1);
+				atualizarTabela();
+				novo();
+			} else {
+				alert("Contato não encontrado!");
+			}
+		}
+
+		function sair() {
+			window.location.href = "paginaInicial.html";
+		}
+
+		function atualizarTabela() {
+			let tabela = document.getElementById("tabela");
+			tabela.innerHTML = "<tr><th>CodigoTel</th><th>Nome</th><th>Celular</th><th>Fone</th><th>Endereço</th></tr>";
+			for (let contato of contatos) {
+				let row = tabela.insertRow(-1);
+				let cell1 = row.insertCell(0);
+				let cell2 = row.insertCell(1);
+				let cell3 = row.insertCell(2);
+				let cell4 = row.insertCell(3);
+				let cell5 = row.insertCell(4);
+				cell1.innerHTML = contato.codigoTel;
+				cell2.innerHTML = contato.nome;
+				cell3.innerHTML = contato.celular;
+				cell4.innerHTML = contato.fone;
+				cell5.innerHTML = contato.endereco;
+			}
+		}
+	</script>
+</body>
+
+</html>

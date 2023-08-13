@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Cadastro de Comarca</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+			margin: 0;
+			padding: 0;
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		form {
+			max-width: 600px;
+			margin: 0 auto;
+			padding: 20px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			background-color: #fff;
+		}
+
+		form label,
+		form input {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		form input {
+			width: 100%;
+			padding: 5px;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+		}
+
+		.button-group {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.button-group button {
+			margin: 5px;
+			padding: 8px 20px;
+			font-size: 16px;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+			background-color: #888;
+			color: #fff;
+		}
+
+		.button-group button:hover {
+			background-color: #555;
+		}
+
+		h2 {
+			text-align: center;
+			margin-top: 30px;
+		}
+
+		table {
+			margin: 0 auto;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		th,
+		td {
+			padding: 10px;
+			text-align: center;
+			border: 1px solid #ddd;
+			background-color: #f9f9f9;
+		}
+
+		th {
+			background-color: #888;
+			color: #fff;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Cadastro de Comarca</h1>
+	<form id="form">
+		<label for="codComarca">CÓDIGO COMARCA:</label>
+		<input type="text" id="codComarca" name="codComarca">
+
+		<label for="foro">FORO:</label>
+		<input type="text" id="foro" name="foro">
+
+		<label for="descricao">DESCRIÇÃO:</label>
+		<input type="text" id="descricao" name="descricao">
+
+		<label for="endereco">ENDEREÇO:</label>
+		<input type="text" id="endereco" name="endereco">
+
+		<label for="bairro">BAIRRO:</label>
+		<input type="text" id="bairro" name="bairro">
+
+		<label for="uf">UF:</label>
+		<input type="text" id="uf" name="uf">
+
+		<label for="fone">FONE:</label>
+		<input type="text" id="fone" name="fone">
+
+		<label for="email">EMAIL:</label>
+		<input type="email" id="email" name="email">
+
+		<label for="atendente">ATENDENTE:</label>
+		<input type="text" id="atendente" name="atendente">
+	</form>
+	<div class="button-group">
+		<button type="button" onclick="novo()">Novo</button>
+		<button type="button" onclick="alterar()">Alterar</button>
+		<button type="button" onclick="salvar()">Salvar</button>
+		<button type="button" onclick="excluir()">Excluir</button>
+		<button type="button" onclick="sair()">Sair</button>
+	</div>
+
+	<h2>Tabela de Comarcas</h2>
+	<table id='tabela'>
+		<tr>
+			<th>CodComarca</th>
+			<th>Descrição</th>
+			<th>Endereço</th>
+			<th>Bairro</th>
+			<th>UF</th>
+			<th>Fone</th>
+			<th>Email</th>
+			<th>Atendente</th>
+		</tr>
+	</table>
+
+	<script>
+		let comarcas = [];
+		let comarcaSelecionada = null;
+
+		function novo() {
+			document.getElementById("form").reset();
+			comarcaSelecionada = null;
+		}
+
+		function alterar() {
+			let codComarca = document.getElementById("codComarca").value;
+			let comarca = comarcas.find(c => c.codComarca === codComarca);
+			if (comarca) {
+				document.getElementById("foro").value = comarca.foro;
+				document.getElementById("descricao").value = comarca.descricao;
+				document.getElementById("endereco").value = comarca.endereco;
+				document.getElementById("bairro").value = comarca.bairro;
+				document.getElementById("uf").value = comarca.uf;
+				document.getElementById("fone").value = comarca.fone;
+				document.getElementById("email").value = comarca.email;
+				document.getElementById("atendente").value = comarca.atendente;
+				comarcaSelecionada = comarca;
+			} else {
+				alert("Comarca não encontrada!");
+			}
+		}
+
+		function salvar() {
+			let codComarca = document.getElementById("codComarca").value;
+			let foro = document.getElementById("foro").value;
+			let descricao = document.getElementById("descricao").value;
+			let endereco = document.getElementById("endereco").value;
+			let bairro = document.getElementById("bairro").value;
+			let uf = document.getElementById("uf").value;
+			let fone = document.getElementById("fone").value;
+			let email = document.getElementById("email").value;
+			let atendente = document.getElementById("atendente").value;
+
+			if (comarcaSelecionada) {
+				comarcaSelecionada.foro = foro;
+				comarcaSelecionada.descricao = descricao;
+				comarcaSelecionada.endereco = endereco;
+				comarcaSelecionada.bairro = bairro;
+				comarcaSelecionada.uf = uf;
+				comarcaSelecionada.fone = fone;
+				comarcaSelecionada.email = email;
+				comarcaSelecionada.atendente = atendente;
+			} else {
+				let comarca = { codComarca, foro, descricao, endereco, bairro, uf, fone, email, atendente };
+				comarcas.push(comarca);
+			}
+
+			atualizarTabela();
+			novo();
+		}
+
+		function excluir() {
+			let codComarca = document.getElementById("codComarca").value;
+			let index = comarcas.findIndex(c => c.codComarca === codComarca);
+			if (index !== -1) {
+				comarcas.splice(index, 1);
+				atualizarTabela();
+				novo();
+			} else {
+				alert("Comarca não encontrada!");
+			}
+		}
+
+		function sair() {
+			window.location.href = "paginaInicial.html";
+		}
+
+		function atualizarTabela() {
+			let tabela = document.getElementById("tabela");
+			tabela.innerHTML = "<tr><th>CodComarca</th><th>Descrição</th><th>Endereço</th><th>Bairro</th><th>UF</th><th>Fone</th><th>Email</th><th>Atendente</th></tr>";
+			for (let comarca of comarcas) {
+				let row = tabela.insertRow(-1);
+				let cell1 = row.insertCell(0);
+				let cell2 = row.insertCell(1);
+				let cell3 = row.insertCell(2);
+				let cell4 = row.insertCell(3);
+				let cell5 = row.insertCell(4);
+				let cell6 = row.insertCell(5);
+				let cell7 = row.insertCell(6);
+				let cell8 = row.insertCell(7);
+				cell1.innerHTML = comarca.codComarca;
+				cell2.innerHTML = comarca.descricao;
+				cell3.innerHTML = comarca.endereco;
+				cell4.innerHTML = comarca.bairro;
+				cell5.innerHTML = comarca.uf;
+				cell6.innerHTML = comarca.fone;
+				cell7.innerHTML = comarca.email;
+				cell8.innerHTML = comarca.atendente;
+			}
+		}
+	</script>
+</body>
+
+</html>

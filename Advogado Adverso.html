@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Cadastro Advogado Adverso</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		form {
+			max-width: 500px;
+			margin: 0 auto;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			background-color: #fff;
+		}
+
+		form label,
+		form input {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		form input {
+			width: 100%;
+			padding: 5px;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+		}
+
+		.button-group {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.button-group button {
+			margin: 5px;
+			padding: 8px 20px;
+			font-size: 16px;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+			background-color: #888;
+			color: #fff;
+		}
+
+		.button-group button:hover {
+			background-color: #555;
+		}
+
+		h2 {
+			text-align: center;
+		}
+
+		table {
+			margin: 0 auto;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid #ddd;
+		}
+
+		th,
+		td {
+			padding: 8px;
+			text-align: left;
+		}
+
+		th {
+			background-color: #888;
+			color: #fff;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Cadastro Advogado Adverso</h1>
+	<form id="form">
+		<label for="codAdvAdverso">COD ADV ADVERSO:</label>
+		<input type="text" id="codAdvAdverso" name="codAdvAdverso">
+
+		<label for="nome">NOME:</label>
+		<input type="text" id="nome" name="nome">
+
+		<label for="oab">OAB:</label>
+		<input type="text" id="oab" name="oab">
+
+		<label for="cidade">CIDADE:</label>
+		<input type="text" id="cidade" name="cidade">
+
+		<label for="estado">ESTADO:</label>
+		<input type="text" id="estado" name="estado">
+
+		<label for="cep">CEP:</label>
+		<input type="text" id="cep" name="cep">
+
+		<label for="celular">CELULAR:</label>
+		<input type="text" id="celular" name="celular">
+
+		<label for="telefone">TELEFONE:</label>
+		<input type="text" id="telefone" name="telefone">
+
+		<label for="email">EMAIL:</label>
+		<input type="email" id="email" name="email">
+
+		<div class="button-group">
+			<button type="button" onclick="novo()">Novo</button>
+			<button type="button" onclick="alterar()">Alterar</button>
+			<button type="button" onclick="salvar()">Salvar</button>
+			<button type="button" onclick="excluir()">Excluir</button>
+			<button type="button" onclick="sair()">Sair</button>
+		</div>
+	</form>
+
+	<h2>Tabela de Cadastros</h2>
+	<table id='tabela'>
+		<tr>
+			<th>CodAdvAdverso</th>
+			<th>Nome</th>
+			<th>OAB</th>
+			<th>Cidade</th>
+			<th>Estado</th>
+			<th>CEP</th>
+			<th>Celular</th>
+			<th>Telefone</th>
+			<th>Email</th>
+		</tr>
+	</table>
+
+	<script>
+		let advogadosAdversos = [];
+		let advogadoAdversoSelecionado = null;
+
+		function novo() {
+			document.getElementById("form").reset();
+			advogadoAdversoSelecionado = null;
+		}
+
+		function alterar() {
+			let codAdvAdverso = document.getElementById("codAdvAdverso").value;
+			let advogadoAdverso = advogadosAdversos.find(a => a.codAdvAdverso === codAdvAdverso);
+			if (advogadoAdverso) {
+				document.getElementById("nome").value = advogadoAdverso.nome;
+				document.getElementById("oab").value = advogadoAdverso.oab;
+				document.getElementById("cidade").value = advogadoAdverso.cidade;
+				document.getElementById("estado").value = advogadoAdverso.estado;
+				document.getElementById("cep").value = advogadoAdverso.cep;
+				document.getElementById("celular").value = advogadoAdverso.celular;
+				document.getElementById("telefone").value = advogadoAdverso.telefone;
+				document.getElementById("email").value = advogadoAdverso.email;
+				advogadoAdversoSelecionado = advogadoAdverso;
+			} else {
+				alert("Advogado adverso não encontrado!");
+			}
+		}
+
+		function salvar() {
+			let codAdvAdverso = document.getElementById("codAdvAdverso").value;
+			let nome = document.getElementById("nome").value;
+			let oab = document.getElementById("oab").value;
+			let cidade = document.getElementById("cidade").value;
+			let estado = document.getElementById("estado").value;
+			let cep = document.getElementById("cep").value;
+			let celular = document.getElementById("celular").value;
+			let telefone = document.getElementById("telefone").value;
+			let email = document.getElementById("email").value;
+
+			if (advogadoAdversoSelecionado) {
+				advogadoAdversoSelecionado.nome = nome;
+				advogadoAdversoSelecionado.oab = oab;
+				advogadoAdversoSelecionado.cidade = cidade;
+				advogadoAdversoSelecionado.estado = estado;
+				advogadoAdversoSelecionado.cep = cep;
+				advogadoAdversoSelecionado.celular = celular;
+				advogadoAdversoSelecionado.telefone = telefone;
+				advogadoAdversoSelecionado.email = email;
+			} else {
+				let advogadoAdverso = { codAdvAdverso, nome, oab, cidade, estado, cep, celular, telefone, email };
+				advogadosAdversos.push(advogadoAdverso);
+			}
+
+			atualizarTabela();
+			novo();
+		}
+
+		function excluir() {
+			let codAdvAdverso = document.getElementById("codAdvAdverso").value;
+			let index = advogadosAdversos.findIndex(a => a.codAdvAdverso === codAdvAdverso);
+			if (index !== -1) {
+				advogadosAdversos.splice(index, 1);
+				atualizarTabela();
+				novo();
+			} else {
+				alert("Advogado adverso não encontrado!");
+			}
+		}
+
+		function sair() {
+			window.location.href = "paginaInicial.html";
+		}
+
+		function atualizarTabela() {
+			let tabela = document.getElementById("tabela");
+			tabela.innerHTML = "<tr><th>CodAdvAdverso</th><th>Nome</th><th>OAB</th><th>Cidade</th><th>Estado</th><th>CEP</th><th>Celular</th><th>Telefone</th><th>Email</th></tr>";
+			for (let advogadoAdverso of advogadosAdversos) {
+				let row = tabela.insertRow(-1);
+				let cell1 = row.insertCell(0);
+				let cell2 = row.insertCell(1);
+				let cell3 = row.insertCell(2);
+				let cell4 = row.insertCell(3);
+				let cell5 = row.insertCell(4);
+				let cell6 = row.insertCell(5);
+				let cell7 = row.insertCell(6);
+				let cell8 = row.insertCell(7);
+				let cell9 = row.insertCell(8);
+				cell1.innerHTML = advogadoAdverso.codAdvAdverso;
+				cell2.innerHTML = advogadoAdverso.nome;
+				cell3.innerHTML = advogadoAdverso.oab;
+				cell4.innerHTML = advogadoAdverso.cidade;
+				cell5.innerHTML = advogadoAdverso.estado;
+				cell6.innerHTML = advogadoAdverso.cep;
+				cell7.innerHTML = advogadoAdverso.celular;
+				cell8.innerHTML = advogadoAdverso.telefone;
+				cell9.innerHTML = advogadoAdverso.email;
+			}
+		}
+	</script>
+</body>
+
+</html>

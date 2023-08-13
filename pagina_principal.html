@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<style>
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
+		}
+
+		li {
+			float: left;
+			width: 20%;
+		}
+
+		li a {
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+
+		li a:hover {
+			background-color: #111;
+		}
+
+		.submenu {
+			display: none;
+		}
+
+		.submenu li {
+			float: none;
+		}
+
+		.submenu li a {
+			color: black;
+		}
+
+		.submenu li:nth-child(odd) a {
+			background-color: #ccc;
+		}
+
+		.submenu li:nth-child(even) a {
+			background-color: white;
+		}
+		
+		
+		
+		body {
+			margin: 0;
+			padding: 0;
+			background-image: url('advocacia2.jpg'); /* Replace with your image URL */
+			background-size: 30%;
+			background-position: center;
+			background-repeat: no-repeat;
+			height: 100vh;
+		}
+	</style>
+	<script>
+		function showSubmenu(submenuId) {
+			var submenus = document.getElementsByClassName("submenu");
+			for (var i = 0; i < submenus.length; i++) {
+				if (submenus[i].id === submenuId) {
+					submenus[i].style.display = "block";
+				} else {
+					submenus[i].style.display = "none";
+				}
+			}
+		}
+
+		function hideAllSubmenus() {
+			var submenus = document.getElementsByClassName("submenu");
+			for (var i = 0; i < submenus.length; i++) {
+				submenus[i].style.display = "none";
+			}
+		}
+	</script>
+
+</head>
+
+<body>
+
+	<ul>
+		<li><a href="#consultas" onclick="showSubmenu('submenu-consultas')">CONSULTAS</a></li>
+		<li><a href="#cadastro" onclick="showSubmenu('submenu-cadastro')">CADASTRO</a></li>
+		<li><a href="#relatorios" onclick="showSubmenu('submenu-relatorios')">RELATORIOS</a></li>
+		<li><a href="#agenda" onclick="showSubmenu('submenu-agenda')">AGENDA</a></li>
+		<li><a href="#calendario" onclick="showSubmenu('submenu-calendario')">CALENDARIO</a></li>
+	</ul>
+
+	<ul id="submenu-consultas" class="submenu">
+		<li><a href="processo">PROCESSO</a></li>
+		<li><a href="cliente">CLIENTE</a></li>
+		<li><a href="pendencias">PENDENCIAS</a></li>
+		<li><a href="audiencias">AUDIENCIAS</a></li>
+		<li><a href="varaforo">VARA/FORO</a></li>
+		<li><a href="agendaescritorio">AGENDA ESCRITORIO</a></li>
+		<li><a href="advogadocontra">ADVOGADO CONTRA</a></li>
+	</ul>
+
+	<ul id="submenu-cadastro" class="submenu">
+		<li><a href="cadastro_advogado">CADASTRO ADVOGADO</a></li>
+		<li><a href="cadastro_comarca">CADASTRO COMARCA</a></li>
+		<li><a href="cadastro_financeiro">CADASTRO FINANCEIRO</a></li>
+		<li><a href="cadastro_cliente">CADASTRO CLIENTE</a></li>
+		<li><a href="cadastro_audiencias">CADASTRO DE AUDIENCIAS</a></li>
+	</ul>
+
+
+	<ul id="submenu-agenda" class="submenu">
+		<li><a href="agendamento_do_dia">AGENDAMENTO DO DIA</a></li>
+		<li><a href="agenda_de_telefone">AGENDA DE TELEFONE</a></li>
+	</ul>
+	
+	
+
+</body>
+
+</html>

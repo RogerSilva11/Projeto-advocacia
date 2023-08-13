@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Cadastro de Publicação</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		form {
+			max-width: 500px;
+			margin: 0 auto;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			background-color: #fff;
+		}
+
+		form label,
+		form input,
+		form textarea {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		form input,
+		form textarea {
+			width: 100%;
+			padding: 5px;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+		}
+
+		textarea {
+			resize: vertical;
+		}
+
+		.button-group {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.button-group button {
+			margin: 5px;
+			padding: 8px 20px;
+			font-size: 16px;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+			background-color: #888;
+			color: #fff;
+		}
+
+		.button-group button:hover {
+			background-color: #555;
+		}
+
+		h2 {
+			text-align: center;
+		}
+
+		table {
+			margin: 0 auto;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid #ddd;
+		}
+
+		th,
+		td {
+			padding: 8px;
+			text-align: left;
+		}
+
+		th {
+			background-color: #888;
+			color: #fff;
+		}
+
+		.red-text {
+			color: red;
+			font-size: 20px;
+		}
+
+		.image-container {
+			text-align: center;
+		}
+
+		.image-container img {
+			max-width: 200px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Cadastro de Publicação</h1>
+	<form id="form">
+		<label for="codigo">CODIGO PUBLICAÇÃO:</label>
+		<input type="text" id="codigo" name="codigo">
+
+		<label for="codProcesso">CODIGO PROCESSO:</label>
+		<input type="text" id="codProcesso" name="codProcesso">
+
+		<label for="codCliente">CODIGO CLIENTE:</label>
+		<input type="text" id="codCliente" name="codCliente">
+
+		<label for="prazo">PRAZO:</label>
+		<input type="text" id="prazo" name="prazo">
+
+		<label for="publiTexto">PUBLICAÇÃO:</label>
+		<div class="image-container">
+			<img src="advocacia.jpg" alt="Imagem da Publicação">
+		</div>
+		<textarea id="publiTexto" name="publiTexto" rows="5"></textarea>
+
+	</form>
+
+	<div class="button-group">
+		<button type="button" onclick="novo()">Novo</button>
+		<button type="button" onclick="alterar()">Alterar</button>
+		<button type="button" onclick="salvar()">Salvar</button>
+		<button type="button" onclick="excluir()">Excluir</button>
+		<button type="button" onclick="sair()">Sair</button>
+	</div>
+
+	<h2>Tabela de Publicações</h2>
+	<table id='tabela'>
+		<tr>
+			<th>CodPubli</th>
+			<th>CodProcesso</th>
+			<th>CodCliente</th>
+			<th>Prazo</th>
+			<th>PubliTexto</th>
+		</tr>
+	</table>
+
+	<script>
+		let publicacoes = [];
+		let publicacaoSelecionada = null;
+
+		function novo() {
+			document.getElementById("form").reset();
+			publicacaoSelecionada = null;
+		}
+
+		function alterar() {
+			let codigo = document.getElementById("codigo").value;
+			let publicacao = publicacoes.find(p => p.codigo === codigo);
+			if (publicacao) {
+				document.getElementById("codProcesso").value = publicacao.codProcesso;
+				document.getElementById("codCliente").value = publicacao.codCliente;
+				document.getElementById("prazo").value = publicacao.prazo;
+				document.getElementById("publiTexto").value = publicacao.publiTexto;
+				publicacaoSelecionada = publicacao;
+			} else {
+				alert("Publicação não encontrada!");
+			}
+		}
+
+		function salvar() {
+			let codigo = document.getElementById("codigo").value;
+			let codProcesso = document.getElementById("codProcesso").value;
+			let codCliente = document.getElementById("codCliente").value;
+			let prazo = document.getElementById("prazo").value;
+			let publiTexto = document.getElementById("publiTexto").value;
+
+			if (publicacaoSelecionada) {
+				publicacaoSelecionada.codProcesso = codProcesso;
+				publicacaoSelecionada.codCliente = codCliente;
+				publicacaoSelecionada.prazo = prazo;
+				publicacaoSelecionada.publiTexto = publiTexto;
+			} else {
+				let publicacao = { codigo, codProcesso, codCliente, prazo, publiTexto };
+				publicacoes.push(publicacao);
+			}
+
+			atualizarTabela();
+			novo();
+		}
+
+		function excluir() {
+			let codigo = document.getElementById("codigo").value;
+			let index = publicacoes.findIndex(p => p.codigo === codigo);
+			if (index !== -1) {
+				publicacoes.splice(index, 1);
+				atualizarTabela();
+				novo();
+			} else {
+				alert("Publicação não encontrada!");
+			}
+		}
+
+		function sair() {
+			window.location.href = "paginaInicial.html";
+		}
+
+		function atualizarTabela() {
+			let tabela = document.getElementById("tabela");
+			tabela.innerHTML = "<tr><th>CodPubli</th><th>CodProcesso</th><th>CodCliente</th><th>Prazo</th><th>PubliTexto</th></tr>";
+			for (let publicacao of publicacoes) {
+				let row = tabela.insertRow(-1);
+				let cell1 = row.insertCell(0);
+				let cell2 = row.insertCell(1);
+				let cell3 = row.insertCell(2);
+				let cell4 = row.insertCell(3);
+				let cell5 = row.insertCell(4);
+				cell1.innerHTML = publicacao.codigo;
+				cell2.innerHTML = publicacao.codProcesso;
+				cell3.innerHTML = publicacao.codCliente;
+				cell4.innerHTML = publicacao.prazo;
+				cell5.innerHTML = publicacao.publiTexto;
+			}
+		}
+	</script>
+</body>
+
+</html>

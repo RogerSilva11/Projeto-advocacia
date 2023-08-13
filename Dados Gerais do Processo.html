@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Dados Gerais do Processo</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background-color: #f2f2f2;
+		}
+
+		h1 {
+			text-align: center;
+		}
+
+		form {
+			max-width: 500px;
+			margin: 0 auto;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			background-color: #fff;
+		}
+
+		form label,
+		form input {
+			display: block;
+			margin-bottom: 10px;
+		}
+
+		form input {
+			width: 100%;
+			padding: 5px;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+		}
+
+		.button-group {
+			text-align: center;
+			margin-top: 20px;
+		}
+
+		.button-group button {
+			margin: 5px;
+			padding: 8px 20px;
+			font-size: 16px;
+			border: none;
+			border-radius: 3px;
+			cursor: pointer;
+			background-color: #888;
+			color: #fff;
+		}
+
+		.button-group button:hover {
+			background-color: #555;
+		}
+
+		h2 {
+			text-align: center;
+		}
+
+		table {
+			margin: 0 auto;
+			border-collapse: collapse;
+			width: 100%;
+		}
+
+		table,
+		th,
+		td {
+			border: 1px solid #ddd;
+		}
+
+		th,
+		td {
+			padding: 8px;
+			text-align: left;
+		}
+
+		th {
+			background-color: #888;
+			color: #fff;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Dados Gerais do Processo</h1>
+	<form id="form">
+		<label for="codProcesso">COD.PROCESSO:</label>
+		<input type="text" id="codProcesso" name="codProcesso">
+
+		<label for="codAdvogado">COD.ADVOGADO:</label>
+		<input type="text" id="codAdvogado" name="codAdvogado">
+
+		<label for="numProcesso">NUM. PROCESSO:</label>
+		<input type="text" id="numProcesso" name="numProcesso">
+
+		<label for="pastaLocal">PASTA LOCAL:</label>
+		<input type="text" id="pastaLocal" name="pastaLocal">
+
+		<label for="tipoAcao">TIPO AÇÃO:</label>
+		<input type="text" id="tipoAcao" name="tipoAcao">
+
+		<label for="numOrigem">NUM. DA ORIGEM:</label>
+		<input type="text" id="numOrigem" name="numOrigem">
+
+		<label for="codComarca">COD. COMARCA:</label>
+		<input type="text" id="codComarca" name="codComarca">
+
+		<label for="vara">VARA:</label>
+		<input type="text" id="vara" name="vara">
+
+		<label for="protocolo">PROTOCOLO:</label>
+		<input type="text" id="protocolo" name="protocolo">
+
+		<label for="hora">HORA:</label>
+		<input type="text" id="hora" name="hora">
+
+		<label for="codAdvAdverso">COD ADV ADVERSO:</label>
+		<input type="text" id="codAdvAdverso" name="codAdvAdverso">
+
+		<label for="partesEnvolvidas">PARTES ENVOLVIDAS:</label>
+		<input type="text" id="partesEnvolvidas" name="partesEnvolvidas">
+
+		<label for="valorEmPorcentagem">VALOR EM PORCENTAGEM:</label>
+		<input type="text" id="valorEmPorcentagem" name="valorEmPorcentagem">
+
+		<label for="dataCadastro">DATA DO CADASTRO:</label>
+		<input type="text" id="dataCadastro" name="dataCadastro">
+
+		<div class="button-group">
+			<button type="button" onclick="novo()">Novo</button>
+			<button type="button" onclick="alterar()">Alterar</button>
+			<button type="button" onclick="salvar()">Salvar</button>
+			<button type="button" onclick="excluir()">Excluir</button>
+			<button type="button" onclick="sair()">Sair</button>
+		</div>
+	</form>
+
+	<h2>Tabela de Cadastros</h2>
+	<table id='tabela'>
+		<tr>
+			<th>CodProcesso</th>
+			<th>CodAdv</th>
+			<th>NumProcesso</th>
+			<th>PastaLocal</th>
+			<th>TipoAcao</th>
+			<th>NumOrigem</th>
+			<th>CodComarca</th>
+			<th>Vara</th>
+			<th>Protocolo</th>
+			<th>Hora</th>
+			<th>CodAdvAdverso</th>
+			<th>PartesEnv</th>
+			<th>ValorEmPorcent</th>
+			<th>DataCadastro</th>
+		</tr>
+	</table>
+
+	<script>
+
+		let processos = [];
+		let processoSelecionado = null;
+
+		function novo() {
+			document.getElementById("form").reset();
+			processoSelecionado = null;
+		}
+
+		function alterar() {
+			let codProcesso = document.getElementById("codProcesso").value;
+			let processo = processos.find(p => p.codProcesso === codProcesso);
+			if (processo) {
+				document.getElementById("codAdvogado").value = processo.codAdvogado;
+				document.getElementById("numProcesso").value = processo.numProcesso;
+				document.getElementById("pastaLocal").value = processo.pastaLocal;
+				document.getElementById("tipoAcao").value = processo.tipoAcao;
+				document.getElementById("numOrigem").value = processo.numOrigem;
+				document.getElementById("codComarca").value = processo.codComarca;
+				document.getElementById("vara").value = processo.vara;
+				document.getElementById("protocolo").value = processo.protocolo;
+				document.getElementById("hora").value = processo.hora;
+				document.getElementById("codAdvAdverso").value = processo.codAdvAdverso;
+				document.getElementById("partesEnvolvidas").value = processo.partesEnvolvidas;
+				document.getElementById("valorEmPorcentagem").value = processo.valorEmPorcentagem;
+				document.getElementById("dataCadastro").value = processo.dataCadastro;
+				processoSelecionado = processo;
+			} else {
+				alert("Processo não encontrado!");
+			}
+		}
+
+		function salvar() {
+			let codProcesso = document.getElementById("codProcesso").value;
+			let codAdvogado = document.getElementById("codAdvogado").value;
+			let numProcesso = document.getElementById("numProcesso").value;
+			let pastaLocal = document.getElementById("pastaLocal").value;
+			let tipoAcao = document.getElementById("tipoAcao").value;
+			let numOrigem = document.getElementById("numOrigem").value;
+			let codComarca = document.getElementById("codComarca").value;
+			let vara = document.getElementById("vara").value;
+			let protocolo = document.getElementById("protocolo").value;
+			let hora = document.getElementById("hora").value;
+			let codAdvAdverso = document.getElementById("codAdvAdverso").value;
+			let partesEnvolvidas = document.getElementById("partesEnvolvidas").value;
+			let valorEmPorcentagem = document.getElementById("valorEmPorcentagem").value;
+			let dataCadastro = document.getElementById("dataCadastro").value;
+
+			if (processoSelecionado) {
+				processoSelecionado.codAdvogado = codAdvogado;
+				processoSelecionado.numProcesso = numProcesso;
+				processoSelecionado.pastaLocal = pastaLocal;
+				processoSelecionado.tipoAcao = tipoAcao;
+				processoSelecionado.numOrigem = numOrigem;
+				processoSelecionado.codComarca = codComarca;
+				processoSelecionado.vara = vara;
+				processoSelecionado.protocolo = protocolo;
+				processoSelecionado.hora = hora;
+				processoSelecionado.codAdvAdverso = codAdvAdverso;
+				processoSelecionado.partesEnvolvidas = partesEnvolvidas;
+				processoSelecionado.valorEmPorcentagem = valorEmPorcentagem;
+				processoSelecionado.dataCadastro = dataCadastro;
+			} else {
+				let processo = {
+					codProcesso,
+					codAdvogado,
+					numProcesso,
+					pastaLocal,
+					tipoAcao,
+					numOrigem,
+					codComarca,
+					vara,
+					protocolo,
+					hora,
+					codAdvAdverso,
+					partesEnvolvidas,
+					valorEmPorcentagem,
+					dataCadastro
+				};
+				processos.push(processo);
+			}
+
+			atualizarTabela();
+			novo();
+		}
+
+		function excluir() {
+			let codProcesso = document.getElementById("codProcesso").value;
+			let index = processos.findIndex(p => p.codProcesso === codProcesso);
+			if (index !== -1) {
+				processos.splice(index, 1);
+				atualizarTabela();
+				novo();
+			} else {
+				alert("Processo não encontrado!");
+			}
+		}
+
+		function sair() {
+			window.location.href = "paginaInicial.html";
+		}
+
+		function atualizarTabela() {
+			let tabela = document.getElementById("tabela");
+			tabela.innerHTML = "<tr><th>CodProcesso</th><th>CodAdv</th><th>CodCliente</th><th>NumProcesso</th><th>PastaLocal</th><th>TipoAcao</th><th>NumOrigem</th><th>CodComarca</th><th>Vara</th><th>Protocolo</th><th>Hora</th><th>CodAdvAdverso</th><th>PartesEnv</th><th>ValorEmPorcent</th><th>DataCadastro</th></tr>";
+			for (let processo of processos) {
+				let row = tabela.insertRow(-1);
+				let cell1 = row.insertCell(0);
+				let cell2 = row.insertCell(1);
+				let cell3 = row.insertCell(2);
+				let cell4 = row.insertCell(3);
+				let cell5 = row.insertCell(4);
+				let cell6 = row.insertCell(5);
+				let cell7 = row.insertCell(6);
+				let cell8 = row.insertCell(7);
+				let cell9 = row.insertCell(8);
+				let cell10 = row.insertCell(9);
+				let cell11 = row.insertCell(10);
+				let cell12 = row.insertCell(11);
+				let cell13 = row.insertCell(12);
+				let cell14 = row.insertCell(13);
+				let cell15 = row.insertCell(14);
+				cell1.innerHTML = processo.codProcesso;
+				cell2.innerHTML = processo.codAdvogado;
+				cell3.innerHTML = processo.numProcesso;
+				cell4.innerHTML = processo.pastaLocal;
+				cell5.innerHTML = processo.tipoAcao;
+				cell6.innerHTML = processo.numOrigem;
+				cell7.innerHTML = processo.codComarca;
+				cell8.innerHTML = processo.vara;
+				cell9.innerHTML = processo.protocolo;
+				cell10.innerHTML = processo.hora;
+				cell11.innerHTML = processo.codAdvAdverso;
+				cell12.innerHTML = processo.partesEnvolvidas;
+				cell13.innerHTML = processo.valorEmPorcentagem;
+				cell14.innerHTML = processo.dataCadastro;
+			}
+		}
+	</script>
+</body>
+
+</html>
